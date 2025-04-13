@@ -128,26 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-        <a class="navbar-brand text-primary" href="#"><i class="fas fa-user-graduate me-2"></i>Student Portal</a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link text-primary" href="index.php">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-primary" href="login.php">Login</a></li>
-                <li class="nav-item"><a class="nav-link active text-primary fw-bold" href="register.php">Register</a></li>
-                <li class="nav-item"><a class="nav-link text-primary" href="feedback.php">Feedback</a></li>
-                <li class="nav-item"><a class="nav-link text-primary" href="admin.php">Admin</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
 <!-- Registration Form -->
 <div class="container py-5">
     <?= $errorMessage ?>
