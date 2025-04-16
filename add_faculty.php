@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require 'db_new.php'; // Updated to use the new database connection
 
 // Check if user is logged in as admin
 if (!isset($_SESSION['admin_id']) || $_SESSION['admin_id'] !== 'admin') {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Insert faculty data into MongoDB
     try {
-        $facultyCollection = $client->student->faculty;
+        $facultyCollection = getCollection('faculty'); // Use the getCollection function
         
         // Check if faculty already exists
         $existingFaculty = $facultyCollection->findOne(['name' => $faculty_name]);
@@ -82,6 +82,9 @@ $departments = [
             margin: 0 auto;
             padding: 20px;
             background-color: #f8f9fa;
+            background-image: url('image/back1.jpeg');
+            background-size: cover;
+            background-position: center;
         }
         h1 {
             color: #4285f4;
@@ -137,8 +140,8 @@ $departments = [
 </head>
 <body>
     <div class="form-container">
-        <h1>Add/Edit Faculty</h1>
-        <form method="POST" action="manage_faculty.php">
+        <h1>Add Faculty</h1>
+        <form method="POST" action="add_faculty.php">
             <div class="form-group">
                 <label for="faculty_name">Faculty Name</label>
                 <input type="text" id="faculty_name" name="faculty_name" required>

@@ -75,16 +75,15 @@ $facultyList = [
             cursor: pointer;
             transition: color 0.2s;
         }
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-    color: gold;
-}
-.star-rating input:checked + label,
-.star-rating input:checked + label ~ label {
-    color: gold;
-}
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: gold;
+        }
+        .star-rating input:checked + label,
+        .star-rating input:checked + label ~ label {
+            color: gold;
+        }
 
-        
         :root {
             --primary-color: #4285f4;
             --primary-hover: #3367d6;
@@ -195,6 +194,24 @@ $facultyList = [
         
         button:hover {
             background-color: var(--primary-hover);
+        }
+
+        .btn-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-home:hover {
+            background-color: var(--primary-color);
+            color: white;
         }
         
         @media (max-width: 600px) {
@@ -312,6 +329,9 @@ $facultyList = [
                 <button type="submit">Submit Feedback</button>
             </div>
         </form>
+        <div class="form-group">
+            <a href="index.php" class="btn-home">🏠 Back to Home</a>
+        </div>
     </div>
 </body>
 <script>

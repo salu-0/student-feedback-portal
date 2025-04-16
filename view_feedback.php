@@ -23,11 +23,15 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['admin_id'] !== 'admin') {
             margin: 0 auto;
             padding: 20px;
             background-color: #f8f9fa;
+            background-image: url('image/back1.jpeg');
+            background-size: cover;
+            background-position: center;
             color: #333;
         }
         h1 {
             text-align: center;
             margin-bottom: 30px;
+            color: #4285f4;
         }
         .form-container {
             background: white;
@@ -104,7 +108,8 @@ legend {
     <input type="date" name="start_date" id="start_date" required>
     <input type="date" name="end_date" id="end_date" required>
 </fieldset>
-            <button type="submit">View Feedback</button>
+<button type="submit">View Feedback</button>
+            <a href="admin.php" style="display: block; margin-top: 20px; text-align: center; text-decoration: none; background-color: #4285f4; color: white; padding: 14px; border-radius: 4px; font-size: 16px;">Back to Admin Panel</a>
         </form>
     </div>
 </body>
