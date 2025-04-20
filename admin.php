@@ -1,106 +1,151 @@
 <?php
 session_start();
-require 'db.php';
+require 'db_new.php';
 
-// Check if user is logged in as admin
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Verify admin session
 if ($_SESSION['admin_id'] !== 'admin') {
     session_unset();
     session_destroy();
     header("Location: login.php");
     exit();
 }
+
+// Sample counts — replace with real MongoDB queries
+$facultyCount = $db->faculty->countDocuments();
+$feedbackCount = $db->feedback->countDocuments();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Admin Dashboard</title>
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: url('image/back1.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4285f4;
-        }
-
-        .form-container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 100px auto 0 auto;
-        }
-
-        .button-group {
+        body {
             display: flex;
+            min-height: 100vh;
+            background-color: #f3f7fa;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            margin: 8px 0;
+            padding: 10px;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .welcome {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 30px;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
         }
 
-        .btn {
-            background-color: #4285f4;
+        .card {
+            flex: 1 1 300px;
+            padding: 30px;
+            border-radius: 12px;
             color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-            text-decoration: none;
-            flex: 1 1 45%;
-            max-width: 200px;
-            transition: background-color 0.3s ease;
+            font-size: 18px;
+            font-weight: 500;
         }
 
-        .btn:hover {
-            background-color: #3367d6;
+        .faculty {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+        }
+
+        .feedback {
+            background: linear-gradient(to right, #36d1dc, #5b86e5);
+        }
+
+        .count {
+            font-size: 40px;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h1>Admin Panel</h1>
-        <div class="button-group">
-            <a href="add_faculty.php" class="btn">Add Faculty</a>
-            <a href="edit_faculty.php" class="btn">Edit Faculty</a>
-            <a href="view_feedback.php" class="btn">View Feedback</a>
-            <a href="delete_faculty.php" class="btn">Delete Faculty</a>
-            <a href="logout.php" class="btn">Logout</a>
+
+    <div class="sidebar">
+        <h2>Feedback Portal</h2>
+        <a href="add_faculty.php">Add Faculty</a>
+        <a href="edit_faculty.php">Edit Faculty</a>
+        <a href="delete_faculty.php">Delete Faculty</a>
+        <a href="view_feedback.php">View Feedback</a>
+        <a href="logout.php">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="welcome">Welcome, <?= htmlspecialchars($_SESSION['admin_id']); ?></div>
+
+        <div class="card-container">
+            <div class="card faculty">
+                Total Faculty
+                <div class="count"><?= $facultyCount ?></div>
+            </div>
+            <div class="card feedback">
+                Total Feedback
+                <div class="count"><?= $feedbackCount ?></div>
+            </div>
         </div>
     </div>
-</body>
 
-<script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php if (isset($_SESSION['alert'])): ?>
+<script>
     Swal.fire({
         icon: '<?= $_SESSION['alert']['type'] ?>',
         title: '<?= $_SESSION['alert']['title'] ?>',
         text: '<?= $_SESSION['alert']['message'] ?>',
         confirmButtonColor: '#4285f4'
     });
-    <?php unset($_SESSION['alert']); ?>
-<?php endif; ?>
 </script>
+<?php unset($_SESSION['alert']); ?>
+<?php endif; ?>
+</body>
 </html>
